@@ -1,0 +1,13 @@
+{
+  "parser": "babel-eslint",
+  "plugins": ["prettier"],
+  "extends": [
+    "plugin:prettier/recommended",
+    "prettier/react",
+    "prettier/standard"
+  ],
+  "globals": { "fetch": false },
+  "rules": {
+    "semi": ["error", "never"]
+  }
+}
