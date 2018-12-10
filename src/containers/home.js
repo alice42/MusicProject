@@ -1,5 +1,4 @@
 import React from 'react'
-import '../styles/home.css'
 import { connect } from 'react-redux'
 import SearchInput from '../components/SearchInput'
 import Aplayer from '../components/Aplayer'
