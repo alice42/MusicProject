@@ -2,7 +2,7 @@ export const searchGoogle = query => {
   return new Promise((resolve, reject) => {
     const prefix = '?intitle:index.of? mp3 '
     const finalQuery = prefix + query
-    const googleApiKey = 'AIzaSyCVyn9zyDq0D0UX-8epyjTz1f8iR72l6XM'
+    const googleApiKey = 'AIzaSyAuVPkeRj2xMoxcoBlD7anwEEjDRtUWOmE'
     const cxKey = '005515934938340543241:5emp1pewlfm'
     const targetUrl = `https://www.googleapis.com/customsearch/v1?cx=${cxKey}&key=${googleApiKey}&q=${finalQuery}`
 

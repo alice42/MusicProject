@@ -2,38 +2,25 @@ import React, { Component } from 'react'
 import ReactAplayer from 'react-aplayer'
 
 class Aplayer extends Component {
-  onPlay = () => {
-    console.log('on play')
-    this.ap.play()
-  }
-
-  onPause = () => {
-    console.log('on pause')
-  }
-
   onInit = ap => {
     this.ap = ap
   }
 
   render() {
+    if (this.props.toPlay !== null) {
+      this.ap.list.clear()
+      this.ap.addAudio(this.props.toPlay)
+      this.ap.play()
+    }
     const props = {
-      theme: '#F57F17',
-      listFolded: false,
-      listMaxHeight: '90',
-      lrcType: 3,
-      audio: this.props.results
+      theme: '#F57F17'
     }
 
-    return this.props.results.length ? (
+    return (
       <div>
-        <ReactAplayer
-          {...props}
-          onInit={this.onInit}
-          onPlay={this.onPlay}
-          onPause={this.onPause}
-        />
+        <ReactAplayer {...props} onInit={this.onInit} />
       </div>
-    ) : null
+    )
   }
 }
 export default Aplayer
