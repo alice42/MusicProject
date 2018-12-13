@@ -1,38 +1,67 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import SearchInput from '../components/SearchInput'
-import Aplayer from '../components/Aplayer'
-import ListMp3 from '../components/ListMp3'
+import Playlist from '../components/playlist'
+import Search from '../components/search'
+import Aplayer from '../components/player'
 
 const Home = () => {
   return (
-    <div>
-      <SearchInputConnected />
-      <ListMp3Connected />
-      <AplayerConnected />
+    <div style={{ width: '100%', display: 'flex' }}>
+      <div style={{ width: '50%' }}>
+        <SearchConnected />
+      </div>
+      <div style={{ width: '50%' }}>
+        <PlaylistConnected />
+        <AplayerConnected />
+      </div>
     </div>
   )
 }
 
-const searchInputMapStateToProps = state => {
+//Playlist
+const playlistMapStateToProps = state => {
+  return {
+    playlist: state.audio.playlist.playlist
+  }
+}
+const playlistMapDispatchToProps = dispatch => {
+  return {
+    toPlayRequest: toPlay => dispatch({ type: 'TO_PLAY_REQUEST', toPlay })
+  }
+}
+
+const PlaylistConnected = connect(
+  playlistMapStateToProps,
+  playlistMapDispatchToProps
+)(Playlist)
+
+//Search
+const searchMapStateToProps = state => {
   return {
     loading: state.audio.search.loading,
-    error: state.audio.search.errorMessage
+    error: state.audio.search.errorMessage,
+    results: state.audio.search.results,
+    toPlay: state.audio.playlist.toPlay,
+    playlist: state.audio.playlist.playlist
   }
 }
 
-const searchInputMapDispatchToProps = dispatch => {
+const searchMapDispatchToProps = dispatch => {
   return {
     onRequestFetch: inputValue =>
-      dispatch({ type: 'SEARCH_REQUEST', inputValue })
+      dispatch({ type: 'SEARCH_REQUEST', inputValue }),
+    addToPlaylistRequest: addToPlaylist =>
+      dispatch({ type: 'ADD_TO_PLAYLIST_REQUEST', addToPlaylist }),
+    toPlayRequest: toPlay => dispatch({ type: 'TO_PLAY_REQUEST', toPlay })
   }
 }
 
-const SearchInputConnected = connect(
-  searchInputMapStateToProps,
-  searchInputMapDispatchToProps
-)(SearchInput)
+const SearchConnected = connect(
+  searchMapStateToProps,
+  searchMapDispatchToProps
+)(Search)
 
+// Player
 const aPlayerMapStateToProps = state => {
   return {
     toPlay: state.audio.playlist.toPlay
@@ -40,24 +69,5 @@ const aPlayerMapStateToProps = state => {
 }
 
 const AplayerConnected = connect(aPlayerMapStateToProps)(Aplayer)
-
-const listMp3MapStateToProps = state => {
-  return {
-    results: state.audio.search.results,
-    toPlay: state.audio.playlist.toPlay
-  }
-}
-const ListMp3MapDispatchToProps = dispatch => {
-  return {
-    addToPlaylistRequest: addToPlaylist =>
-      dispatch({ type: 'ADD_TO_PLAYLIST_REQUEST', addToPlaylist }),
-    toPlayRequest: toPlay => dispatch({ type: 'TO_PLAY_REQUEST', toPlay })
-  }
-}
-
-const ListMp3Connected = connect(
-  listMp3MapStateToProps,
-  ListMp3MapDispatchToProps
-)(ListMp3)
 
 export default Home
