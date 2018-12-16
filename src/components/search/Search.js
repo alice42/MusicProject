@@ -1,43 +1,31 @@
 import React, { Component } from 'react'
 import SearchInput from './input/SearchInput'
 import ListMp3 from './list/ListMp3'
+import GoogleApiKey from '../commons/InputWithValidator'
 
 class Search extends Component {
-  state = { inputValue: null }
-
-  handleOnChange = event => {
-    this.setState({ inputValue: event.target.value })
-  }
-  handleRequestFetch = () => {
-    this.props.onRequestFetch(this.state.inputValue)
-  }
-
-  handleAddToPlaylistRequest = event => {
-    this.props.addToPlaylistRequest({
-      name: event.target.dataset.name,
-      url: event.target.dataset.url
-    })
-  }
-  handleToPlayRequest = event => {
-    this.props.toPlayRequest({
-      name: event.target.dataset.name,
-      url: event.target.dataset.url
-    })
+  componentDidMount = () => {
+    this.props.onMount()
   }
 
   render() {
     return (
       <div>
         <SearchInput
+          onRequestFetch={this.props.onRequestFetch}
           loading={this.props.loading}
           error={this.props.error}
-          handleOnChange={this.handleOnChange}
-          handleRequestFetch={this.handleRequestFetch}
+        />
+        <GoogleApiKey
+          onClick={this.props.onChangeGoogleApiKey}
+          defaultValue={this.props.googleApiKey}
+          error={false}
+          loading={false}
         />
         <ListMp3
           items={this.props.results}
-          handleAddToPlaylistRequest={this.handleAddToPlaylistRequest}
-          handleToPlayRequest={this.handleToPlayRequest}
+          addToPlaylistRequest={this.props.addToPlaylistRequest}
+          toPlayRequest={this.props.toPlayRequest}
         />
       </div>
     )

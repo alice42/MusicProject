@@ -42,7 +42,8 @@ const searchMapStateToProps = state => {
     error: state.audio.search.errorMessage,
     results: state.audio.search.results,
     toPlay: state.audio.playlist.toPlay,
-    playlist: state.audio.playlist.playlist
+    playlist: state.audio.playlist.playlist,
+    googleApiKey: state.audio.search.googleApiKey
   }
 }
 
@@ -52,7 +53,10 @@ const searchMapDispatchToProps = dispatch => {
       dispatch({ type: 'SEARCH_REQUEST', inputValue }),
     addToPlaylistRequest: addToPlaylist =>
       dispatch({ type: 'ADD_TO_PLAYLIST_REQUEST', addToPlaylist }),
-    toPlayRequest: toPlay => dispatch({ type: 'TO_PLAY_REQUEST', toPlay })
+    toPlayRequest: toPlay => dispatch({ type: 'TO_PLAY_REQUEST', toPlay }),
+    onMount: () => dispatch({ type: 'SEARCH_MODULE_INIT' }),
+    onChangeGoogleApiKey: inputValue =>
+      dispatch({ type: 'GOOGLE_API_KEY_REQUEST', inputValue })
   }
 }
 
