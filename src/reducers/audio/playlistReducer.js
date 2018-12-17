@@ -5,10 +5,11 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'ADD_TO_PLAYLIST_REQUEST':
+    case 'PLAYLIST_ADD_SONG_SUCCESS':
+    case 'PLAYLIST_REMOVE_SONG_SUCCESS':
       return {
         ...state,
-        playlist: [...state.playlist, action.addToPlaylist]
+        playlist: [...action.results]
       }
     case 'TO_PLAY_REQUEST':
       return {

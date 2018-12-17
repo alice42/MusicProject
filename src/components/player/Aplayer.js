@@ -13,7 +13,8 @@ class Aplayer extends Component {
       this.ap.play()
     }
     const props = {
-      theme: '#F57F17'
+      theme: '#F57F17',
+      loop: 'none'
     }
 
     return (

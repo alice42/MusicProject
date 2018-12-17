@@ -32,7 +32,9 @@ const playlistMapStateToProps = state => {
 }
 const playlistMapDispatchToProps = dispatch => {
   return {
-    toPlayRequest: toPlay => dispatch({ type: 'TO_PLAY_REQUEST', toPlay })
+    toPlayRequest: toPlay => dispatch({ type: 'TO_PLAY_REQUEST', toPlay }),
+    RemoveRequest: toRemove =>
+      dispatch({ type: 'PLAYLIST_REMOVE_SONG_REQUEST', toRemove })
   }
 }
 
@@ -58,7 +60,7 @@ const searchMapDispatchToProps = dispatch => {
     onRequestFetch: inputValue =>
       dispatch({ type: 'SEARCH_REQUEST', inputValue }),
     addToPlaylistRequest: addToPlaylist =>
-      dispatch({ type: 'ADD_TO_PLAYLIST_REQUEST', addToPlaylist }),
+      dispatch({ type: 'PLAYLIST_ADD_SONG_REQUEST', addToPlaylist }),
     toPlayRequest: toPlay => dispatch({ type: 'TO_PLAY_REQUEST', toPlay }),
     onMount: () => dispatch({ type: 'SEARCH_MODULE_INIT' }),
     onChangeGoogleApiKey: inputValue =>

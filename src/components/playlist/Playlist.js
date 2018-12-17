@@ -4,12 +4,6 @@ import List from './list/List'
 class Playlist extends Component {
   state = { isDisplaying: false }
 
-  handleToPlayRequest = event => {
-    this.props.toPlayRequest({
-      name: event.target.dataset.name,
-      url: event.target.dataset.url
-    })
-  }
   handleDisplayClick = () => {
     this.setState({ isDisplaying: !this.state.isDisplaying })
   }
@@ -24,7 +18,8 @@ class Playlist extends Component {
         {isDisplaying ? (
           <List
             items={this.props.playlist}
-            handleToPlayRequest={this.handleToPlayRequest}
+            toPlayRequest={this.props.toPlayRequest}
+            RemoveRequest={this.props.RemoveRequest}
           />
         ) : null}
       </div>
