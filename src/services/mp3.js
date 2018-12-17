@@ -43,7 +43,7 @@ const retriveAudio = (json, url) => {
 export const searchMp3 = url => {
   return new Promise((resolve, reject) => {
     const timeoutValue = 10000
-    const proxyUrl = 'https://cors-anywhere.herokuapp.com/'
+    const proxyUrl = 'http://localhost:3000/'
     const timeout = setTimeout(() => {
       console.error(Error(`Timeout after ${timeoutValue}ms with ${url}`))
       resolve([])

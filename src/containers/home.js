@@ -7,7 +7,13 @@ import Aplayer from '../components/player'
 const Home = () => {
   return (
     <div style={{ width: '100%', display: 'flex' }}>
-      <div style={{ width: '50%' }}>
+      <div
+        style={{
+          width: '50%',
+          height: '-webkit-fill-available',
+          overflow: 'scroll'
+        }}
+      >
         <SearchConnected />
       </div>
       <div style={{ width: '50%' }}>

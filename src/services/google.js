@@ -1,16 +1,21 @@
+const urlParams = params =>
+  `&${Object.keys(params)
+    .map(id => `${id}=${params[id]}`)
+    .join('&')}`
+
 export const searchGoogle = (query, googleApiKey) => {
   return new Promise((resolve, reject) => {
-    const prefix = '?intitle:index.of? mp3 '
-    const finalQuery = prefix + query
-    const cxKey = '005515934938340543241:5emp1pewlfm'
-    const targetUrl = `https://www.googleapis.com/customsearch/v1?cx=${cxKey}&key=${googleApiKey}&q=${finalQuery}`
-
-    fetch(targetUrl, {
-      method: 'GET',
-      headers: {
-        'Access-Control-Allow-Headers': 'X-Requested-With',
-        'X-Requested-With': 'XMLHttpRequest'
-      }
+    const cseUrl = 'https://www.googleapis.com/customsearch/v1'
+    const cseParams = {
+      key: googleApiKey,
+      cx: '004222041682951594786:xllttvwe7r8',
+      q: escape(`intitle:"index of /" -inurl:"html|htm|php" mp3 ${query}`)
+    }
+    const cseUrlWithParams = `${cseUrl}?${urlParams(cseParams)}`
+    console.log('gs', `https://www.google.fr/search?q=${cseParams.q}`)
+    console.log('gapi', cseUrlWithParams)
+    fetch(cseUrlWithParams, {
+      method: 'GET'
     })
       .then(response => {
         response

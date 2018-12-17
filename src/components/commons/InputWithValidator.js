@@ -6,7 +6,8 @@ class InputWithValidator extends Component {
   componentDidUpdate = (prevProps, prevState) => {
     if (
       prevState.inputValue !== this.props.defaultValue &&
-      this.state.inputValue === ''
+      this.state.inputValue === '' &&
+      this.props.defaultValue !== null
     ) {
       this.setState({ inputValue: this.props.defaultValue })
     }

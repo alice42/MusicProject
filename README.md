@@ -4,8 +4,6 @@ MusicProject is a website who let you search and play music on the web
 
 ## Installation
 
-Use `git` download the project.
-
 ```bash
 git clone git@github.com:alice42/MusicProject.git
 ```
@@ -18,14 +16,14 @@ git clone git@github.com:alice42/MusicProject.git
 ## Usage
 
 ```bash
-npm i
-npm run dev
+npm run setup
+npm run start
 ```
 
 ## Contributing
 
 Feel free to send a pull request for major changes or any improvement.
-Please make sure to read CONTRIBUTING.md
+Please make sure to read the [CONTRIBUTING](https://github.com/alice42/MusicProject/blob/master/CONTRIBUTING.md) |
 
 ## License
 
