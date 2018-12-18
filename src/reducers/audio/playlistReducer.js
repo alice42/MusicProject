@@ -11,6 +11,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         playlist: [...action.results]
       }
+    case 'LOAD_PLAYLIST':
+      return {
+        ...state,
+        playlist: [...action.playlist]
+      }
     case 'TO_PLAY_REQUEST':
       return {
         ...state,

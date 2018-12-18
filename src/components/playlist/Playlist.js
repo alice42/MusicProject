@@ -3,6 +3,9 @@ import List from './list/List'
 
 class Playlist extends Component {
   state = { isDisplaying: false }
+  componentDidMount = () => {
+    this.props.onMount()
+  }
 
   handleDisplayClick = () => {
     this.setState({ isDisplaying: !this.state.isDisplaying })

@@ -34,7 +34,8 @@ const playlistMapDispatchToProps = dispatch => {
   return {
     toPlayRequest: toPlay => dispatch({ type: 'TO_PLAY_REQUEST', toPlay }),
     RemoveRequest: toRemove =>
-      dispatch({ type: 'PLAYLIST_REMOVE_SONG_REQUEST', toRemove })
+      dispatch({ type: 'PLAYLIST_REMOVE_SONG_REQUEST', toRemove }),
+    onMount: () => dispatch({ type: 'PLAYLIST_INIT' })
   }
 }
 

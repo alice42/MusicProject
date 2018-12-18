@@ -20,9 +20,25 @@ function* addSongRequest(action) {
   }
 }
 
+function* savePlaylist(action) {
+  window.localStorage.setItem('savedPlaylist', JSON.stringify(action.results))
+}
+
+function* loadPlaylist(action) {
+  const playlist = JSON.parse(window.localStorage.getItem('savedPlaylist'))
+  if (playlist) {
+    yield put({ type: 'LOAD_PLAYLIST', playlist })
+  }
+}
+
 export default function* rootSaga() {
   yield all([
     yield takeEvery('PLAYLIST_REMOVE_SONG_REQUEST', removeFromPlaylistSaga),
-    yield takeEvery('PLAYLIST_ADD_SONG_REQUEST', addSongRequest)
+    yield takeEvery('PLAYLIST_ADD_SONG_REQUEST', addSongRequest),
+    yield takeEvery(
+      ['PLAYLIST_ADD_SONG_SUCCESS', 'PLAYLIST_REMOVE_SONG_SUCCESS'],
+      savePlaylist
+    ),
+    yield takeEvery('PLAYLIST_INIT', loadPlaylist)
   ])
 }
