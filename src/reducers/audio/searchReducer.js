@@ -1,8 +1,7 @@
 const initialState = {
   loading: false,
   results: [],
-  errorMessage: null,
-  googleApiKey: null
+  errorMessage: null
 }
 
 const reducer = (state = initialState, action) => {
@@ -22,11 +21,6 @@ const reducer = (state = initialState, action) => {
         loading: false,
         results: [],
         errorMessage: action.errorMessage
-      }
-    case 'GOOGLE_API_KEY_REQUEST':
-      return {
-        ...state,
-        googleApiKey: action.inputValue
       }
     default:
       return state

@@ -1,44 +1,11 @@
-import { parse } from 'himalaya'
+import jquery from 'jquery'
 
-const searchElement = (elements, store) => {
-  elements.forEach(element => {
-    if (
-      element.tagName === 'a' &&
-      element.attributes.find(attribute => attribute.key === 'href')
-    ) {
-      store.push(element)
-    }
-    if (element.children && element.children.length) {
-      searchElement(element.children, store)
-    }
-  })
-}
+const removeSrc = /(src="[^"]+")|(src='[^']+')/gm
 
-const getAbsoluteUrl = (attributes, url) => {
-  const href = attributes.find(attribute => attribute.key === 'href')
-  const value =
-    href.value.indexOf('http') === 0
-      ? href.value
-      : href.value[0] === '/'
-      ? `${url}${href.value}`
-      : `${url}/${href.value}`
-  return value
-}
-
-const retriveAudio = (json, url) => {
-  const elements = []
-  searchElement(json, elements)
-  //slice 100 firsts because its a MVP
-  const debug = elements.slice(0, 99)
-  const elementsFormated = debug.map(element => ({
-    name: element.children[0] && element.children[0].content,
-    url: getAbsoluteUrl(element.attributes, url)
-  }))
-  const mp3s = elementsFormated.filter(element => {
-    return element.url.split('.').pop() === 'mp3'
-  })
-  return mp3s
-}
+const getAbsoluteUrl = (href, url) =>
+  href.indexOf('http') === 0
+    ? href
+    : `${url}${href[0] === '/' ? '' : '/'}${href}`
 
 export const searchMp3 = url => {
   return new Promise((resolve, reject) => {
@@ -49,34 +16,44 @@ export const searchMp3 = url => {
       resolve([])
     }, timeoutValue)
     fetch(proxyUrl + url, {
-      method: 'GET',
-      headers: {
-        'Access-Control-Allow-Headers': 'X-Requested-With',
-        'X-Requested-With': 'XMLHttpRequest'
-      }
+      method: 'GET'
     })
       .then(response => {
         if (response.status > 199 && response.status < 300) {
           response
             .text()
             .then(html => {
-              const json = parse(html)
-              const allMp3 = retriveAudio(json, url)
               clearTimeout(timeout)
+              const htmlWithoutSrc = html.replace(removeSrc, '')
+              const aElements = jquery(htmlWithoutSrc).find('a')
+              const allMp3 = [
+                ...aElements.map(id => ({
+                  name: aElements[id].innerText,
+                  url: getAbsoluteUrl(
+                    aElements[id].href.split('http://localhost:8080/')[1],
+                    url
+                  )
+                }))
+              ].filter(elem => elem.url.split('.').pop() === 'mp3')
               resolve(allMp3)
             })
             .catch(error => {
               clearTimeout(timeout)
-              reject(error)
+              console.error(error)
+              resolve([])
             })
         } else {
           clearTimeout(timeout)
-          reject(Error(`Error Api response, status code: ${response.status}`))
+          console.error(
+            Error(`Error Api response, status code: ${response.status}`)
+          )
+          resolve([])
         }
       })
       .catch(error => {
         clearTimeout(timeout)
-        reject(error)
+        console.error(error)
+        resolve([])
       })
   })
 }

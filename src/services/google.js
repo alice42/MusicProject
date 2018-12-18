@@ -1,44 +1,32 @@
-const urlParams = params =>
-  `&${Object.keys(params)
-    .map(id => `${id}=${params[id]}`)
-    .join('&')}`
+import jquery from 'jquery'
 
-export const searchGoogle = (query, googleApiKey) => {
+export const searchGoogle = query => {
   return new Promise((resolve, reject) => {
-    const cseUrl = 'https://www.googleapis.com/customsearch/v1'
-    const cseParams = {
-      key: googleApiKey,
-      cx: '004222041682951594786:xllttvwe7r8',
-      q: escape(`intitle:"index of /" -inurl:"html|htm|php" mp3 ${query}`)
-    }
-    const cseUrlWithParams = `${cseUrl}?${urlParams(cseParams)}`
-    console.log('gs', `https://www.google.fr/search?q=${cseParams.q}`)
-    console.log('gapi', cseUrlWithParams)
-    fetch(cseUrlWithParams, {
+    const proxyUrl = 'http://localhost:3000/'
+    const googleUrl = `https://www.google.fr/search?q=${escape(
+      `intitle:"index of /" -inurl:"html|htm|php" mp3 ${query}`
+    )}`
+    console.log(proxyUrl + googleUrl)
+    fetch(proxyUrl + googleUrl, {
       method: 'GET'
     })
       .then(response => {
         response
-          .json()
-          .then(jsonResponse => {
-            if (response.status > 199 && response.status < 300) {
-              resolve(jsonResponse)
-            } else {
-              console.log(jsonResponse)
-              if (jsonResponse.error) {
-                reject(
-                  Error(
-                    `${jsonResponse.error.message}: ${
-                      jsonResponse.error.errors[0].reason
-                    }`
-                  )
+          .text()
+          .then(html => {
+            const aElements = jquery(html).find('#ires h3 a')
+            const links = [
+              ...aElements.map(id =>
+                decodeURI(
+                  aElements[id].href
+                    .split('http://localhost:8080/')[1]
+                    .split('&sa')[0]
                 )
-              } else {
-                reject(
-                  Error(`Error Api response, status code: ${response.status}`)
-                )
-              }
-            }
+              )
+            ]
+              .filter(link => link.indexOf('url?q=') === 0)
+              .map(link => link.split('url?q=')[1])
+            resolve(links)
           })
           .catch(error => reject(error))
       })

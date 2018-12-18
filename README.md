@@ -11,7 +11,6 @@ git clone git@github.com:alice42/MusicProject.git
 ## Required
 
 - [npm](https://www.npmjs.com/get-npm) ( latest )
-- [google api key](https://developers.google.com/custom-search/v1/introduction)
 
 ## Usage
 
