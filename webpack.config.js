@@ -5,7 +5,8 @@ const hwp = require('html-webpack-plugin')
 module.exports = {
   entry: './src/routes/',
   devServer: {
-    historyApiFallback: true
+    historyApiFallback: true,
+    port: 13370
   },
   module: {
     rules: [

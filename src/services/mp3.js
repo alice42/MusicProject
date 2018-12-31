@@ -1,16 +1,20 @@
 import jquery from 'jquery'
 
-const removeSrc = /(src="[^"]+")|(src='[^']+')/gm
+const srcAttr = /(src="[^"]+")|(src='[^']+')/gm
 
-const getAbsoluteUrl = (href, url) =>
-  href.indexOf('http') === 0
-    ? href
-    : `${url}${href[0] === '/' ? '' : '/'}${href}`
+const getAbsoluteUrl = (href, url) => {
+  const regex = /(\/[^]{10,})(?=.*\1)/
+  const absoluteUrl =
+    href.indexOf('http') === 0
+      ? href
+      : `${url}${href[0] === '/' ? '' : '/'}${href}`
+  return absoluteUrl.replace(regex, '')
+}
 
 export const searchMp3 = url => {
   return new Promise((resolve, reject) => {
     const timeoutValue = 10000
-    const proxyUrl = 'http://localhost:3000/'
+    const proxyUrl = 'http://localhost:13371/'
     const timeout = setTimeout(() => {
       console.error(Error(`Timeout after ${timeoutValue}ms with ${url}`))
       resolve([])
@@ -24,17 +28,17 @@ export const searchMp3 = url => {
             .text()
             .then(html => {
               clearTimeout(timeout)
-              const htmlWithoutSrc = html.replace(removeSrc, '')
+              const htmlWithoutSrc = html.replace(srcAttr, '')
               const aElements = jquery(htmlWithoutSrc).find('a')
-              const allMp3 = [
-                ...aElements.map(id => ({
-                  name: aElements[id].innerText,
+              const allMp3 = [...aElements]
+                .filter(elem => elem.href.split('.').pop() === 'mp3')
+                .map(elem => ({
+                  name: elem.innerText,
                   url: getAbsoluteUrl(
-                    aElements[id].href.split('http://localhost:8080/')[1],
-                    url
+                    elem.href.split('http://localhost:13370/')[1],
+                    decodeURIComponent(url)
                   )
                 }))
-              ].filter(elem => elem.url.split('.').pop() === 'mp3')
               resolve(allMp3)
             })
             .catch(error => {
