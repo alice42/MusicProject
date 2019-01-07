@@ -37,7 +37,7 @@ app.get('/*', (req, res) => {
           res.send(500, `ERROR while redirecting ${url}`, error)
         } else {
           res.send(body)
-          fs.writeFileSync(cachePath, body)
+          // fs.writeFileSync(cachePath, body)
         }
       }
     )
