@@ -11,6 +11,12 @@ class SearchInput extends Component {
     this.props.onRequestFetch(this.state.inputValue)
   }
 
+  handleKeyUp = event => {
+    if (event.keyCode === 13) {
+      this.props.onRequestFetch(this.state.inputValue)
+    }
+  }
+
   render() {
     return (
       <div>
@@ -19,7 +25,11 @@ class SearchInput extends Component {
             <label>Error: {this.props.error}</label>
           </div>
         ) : null}
-        <input type="text" onChange={this.handleOnChange} />
+        <input
+          type="text"
+          onChange={this.handleOnChange}
+          onKeyUp={this.handleKeyUp}
+        />
         {this.props.loading ? (
           <button disabled>Searching...</button>
         ) : (

@@ -1,14 +1,18 @@
 import jquery from 'jquery'
 
-const srcAttr = /(src="[^"]+")|(src='[^']+')/gm
+const srcAttrRegex = /(src="[^"]+")|(src='[^']+')/gm
+const duplicateRegex = /(\/[^]{10,})(?=.*\1)/
+
+const createUrl = (href, url) => {
+  const hrefClean = href[0] === '/' ? href.substring(1) : href
+  const urlClean =
+    url[url.length - 1] === '/' ? url.substring(0, url.length - 1) : url
+  return `${urlClean}${'/'}${hrefClean}`
+}
 
 const getAbsoluteUrl = (href, url) => {
-  const regex = /(\/[^]{10,})(?=.*\1)/
-  const absoluteUrl =
-    href.indexOf('http') === 0
-      ? href
-      : `${url}${href[0] === '/' ? '' : '/'}${href}`
-  return absoluteUrl.replace(regex, '')
+  const absoluteUrl = href.indexOf('http') === 0 ? href : createUrl(href, url)
+  return absoluteUrl.replace(duplicateRegex, '')
 }
 
 export const searchMp3 = url => {
@@ -28,7 +32,7 @@ export const searchMp3 = url => {
             .text()
             .then(html => {
               clearTimeout(timeout)
-              const htmlWithoutSrc = html.replace(srcAttr, '')
+              const htmlWithoutSrc = html.replace(srcAttrRegex, '')
               const aElements = jquery(htmlWithoutSrc).find('a')
               const allMp3 = [...aElements]
                 .filter(elem => elem.href.split('.').pop() === 'mp3')
