@@ -19,22 +19,31 @@ class ListMp3 extends Component {
     return (
       <div>
         {this.props.items.map(item => (
-          <div key={`${item.url}/${item.name}`}>
-            {item.name}
-            <button
-              data-name={item.name}
-              data-url={item.url}
-              onClick={this.handleAddToPlaylistRequest}
-            >
-              Add
-            </button>
-            <button
-              data-name={item.name}
-              data-url={item.url}
-              onClick={this.handleToPlayRequest}
-            >
-              Play
-            </button>
+          <div
+            key={`${item.url}/${item.name}`}
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              borderBottom: '1px solid #eee'
+            }}
+          >
+            <div>{item.name}</div>
+            <div>
+              <button
+                data-name={item.name}
+                data-url={item.url}
+                onClick={this.handleToPlayRequest}
+              >
+                Play
+              </button>
+              <button
+                data-name={item.name}
+                data-url={item.url}
+                onClick={this.handleAddToPlaylistRequest}
+              >
+                Add
+              </button>
+            </div>
           </div>
         ))}
       </div>

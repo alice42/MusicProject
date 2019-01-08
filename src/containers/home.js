@@ -17,8 +17,8 @@ const Home = () => {
         <SearchConnected />
       </div>
       <div style={{ width: '50%' }}>
-        <PlaylistConnected />
         <AplayerConnected />
+        <PlaylistConnected />
       </div>
     </div>
   )

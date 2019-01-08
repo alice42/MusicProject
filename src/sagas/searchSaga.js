@@ -10,6 +10,13 @@ import { searchGoogle } from '../services/google'
 import { searchMp3 } from '../services/mp3'
 import { flatten } from 'lodash'
 
+const test = (items, search) => {
+  // items.forEach(element => {
+  //   console.log(element.name)
+  // })
+  return items
+}
+
 function* searchSaga(action) {
   try {
     const googleLinks = yield call(searchGoogle, action.inputValue)
@@ -18,7 +25,8 @@ function* searchSaga(action) {
         return call(searchMp3, link)
       })
     )
-    yield put({ type: 'SEARCH_SUCCESS', results: flatten(mp3s) })
+    const results = test(flatten(mp3s), action.inputValue)
+    yield put({ type: 'SEARCH_SUCCESS', results })
   } catch (error) {
     yield put({ type: 'SEARCH_FAILURE', errorMessage: error.message })
   }

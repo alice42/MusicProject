@@ -40,6 +40,7 @@ class Aplayer extends Component {
 
   render() {
     if (this.props.toPlay !== null) {
+      console.log(this.props.toPlay)
       this.ap.list.clear()
       this.ap.addAudio(this.props.toPlay)
       this.ap.play()

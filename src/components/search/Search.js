@@ -15,6 +15,7 @@ class Search extends Component {
           loading={this.props.loading}
           error={this.props.error}
         />
+        <hr />
         <ListMp3
           items={this.props.results}
           addToPlaylistRequest={this.props.addToPlaylistRequest}

@@ -1,4 +1,5 @@
 import jquery from 'jquery'
+import { uniqWith, orderBy } from 'lodash'
 
 const srcAttrRegex = /(src="[^"]+")|(src='[^']+')/gm
 const duplicateRegex = /(\/[^]{10,})(?=.*\1)/
@@ -10,9 +11,23 @@ const createUrl = (href, url) => {
   return `${urlClean}${'/'}${hrefClean}`
 }
 
-const getAbsoluteUrl = (href, url) => {
+const getAbsoluteUrl = (hrefRaw, urlRaw) => {
+  const href =
+    hrefRaw.indexOf('http://localhost:13370/') === 0
+      ? hrefRaw.split('http://localhost:13370/')[1]
+      : hrefRaw
+  const url = decodeURIComponent(unescape(urlRaw))
   const absoluteUrl = href.indexOf('http') === 0 ? href : createUrl(href, url)
   return absoluteUrl.replace(duplicateRegex, '')
+}
+
+const getName = (innerText, href) => {
+  const fileName = decodeURIComponent(unescape(href))
+    .trim()
+    .split('/')
+    .pop()
+    .split('.mp3')[0]
+  return fileName
 }
 
 export const searchMp3 = url => {
@@ -37,13 +52,14 @@ export const searchMp3 = url => {
               const allMp3 = [...aElements]
                 .filter(elem => elem.href.split('.').pop() === 'mp3')
                 .map(elem => ({
-                  name: elem.innerText,
-                  url: getAbsoluteUrl(
-                    elem.href.split('http://localhost:13370/')[1],
-                    decodeURIComponent(url)
-                  )
+                  name: getName(elem.innerText, elem.href),
+                  url: getAbsoluteUrl(elem.href, url)
                 }))
-              resolve(allMp3)
+              const uniqResults = uniqWith(
+                orderBy(allMp3, ['name'], ['desc']),
+                (a, b) => a.url === b.url && a.name === ''
+              )
+              resolve(uniqResults)
             })
             .catch(error => {
               clearTimeout(timeout)
