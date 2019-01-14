@@ -1,6 +1,6 @@
 import jquery from 'jquery'
 
-const scamUrls = ['unknownsecret.info', 'hypem.com']
+const scamUrls = ['unknownsecret.info', 'hypem.com', 'sirens.rocks']
 
 const excludeUrls = urls => urls.map(url => `-site:${url}`).join(' ')
 
@@ -12,7 +12,6 @@ export const searchGoogle = query => {
         scamUrls
       )}`
     )}`
-    console.log(proxyUrl + googleUrl)
     fetch(proxyUrl + googleUrl, {
       method: 'GET'
     })

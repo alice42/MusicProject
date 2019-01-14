@@ -11,12 +11,11 @@ const createUrl = (href, url) => {
   return `${urlClean}${'/'}${hrefClean}`
 }
 
-const getAbsoluteUrl = (hrefRaw, urlRaw) => {
+const getAbsoluteUrl = (hrefRaw, url) => {
   const href =
     hrefRaw.indexOf('http://localhost:13370/') === 0
       ? hrefRaw.split('http://localhost:13370/')[1]
       : hrefRaw
-  const url = decodeURIComponent(unescape(urlRaw))
   const absoluteUrl = href.indexOf('http') === 0 ? href : createUrl(href, url)
   return absoluteUrl.replace(duplicateRegex, '')
 }
@@ -57,7 +56,9 @@ export const searchMp3 = url => {
                 }))
               const uniqResults = uniqWith(
                 orderBy(allMp3, ['name'], ['desc']),
-                (a, b) => a.url === b.url && a.name === ''
+                (a, b) =>
+                  (a.url === b.url && a.name === '') ||
+                  (a.url === b.url && a.name === b.name)
               )
               resolve(uniqResults)
             })

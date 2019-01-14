@@ -38,9 +38,12 @@ class Aplayer extends Component {
     this.ap = ap
   }
 
+  onError = e => {
+    console.log('Error with', this.ap.list.audios[0].url)
+  }
+
   render() {
     if (this.props.toPlay !== null) {
-      console.log(this.props.toPlay)
       this.ap.list.clear()
       this.ap.addAudio(this.props.toPlay)
       this.ap.play()
@@ -52,7 +55,7 @@ class Aplayer extends Component {
 
     return (
       <div>
-        <ReactAplayer {...props} onInit={this.onInit} />
+        <ReactAplayer {...props} onError={this.onError} onInit={this.onInit} />
       </div>
     )
   }

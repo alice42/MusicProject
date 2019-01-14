@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { randomColor } from '../../../utils'
 
 class List extends Component {
   handleToPlayRequest = event => {
@@ -26,7 +27,8 @@ class List extends Component {
                 style={{
                   display: 'flex',
                   justifyContent: 'space-between',
-                  borderBottom: '1px solid #eee'
+                  borderBottom: '1px solid #eee',
+                  backgroundColor: randomColor()
                 }}
               >
                 <div>{item.name}</div>

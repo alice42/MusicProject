@@ -18,30 +18,30 @@ app.use(function(req, res, next) {
 
 app.get('/*', (req, res) => {
   const url = req.originalUrl.substring(1)
-  const cachePath = `./cache/${encodeURIComponent(url)}`
+  // const cachePath = `./cache/${encodeURIComponent(url)}`
 
-  if (fs.existsSync(cachePath)) {
-    console.log(`cache found for ${url}`)
-    res.send(fs.readFileSync(cachePath))
-  } else {
-    request(
-      {
-        url,
-        followRedirect: true,
-        followAllRedirects: true,
-        maxRedirects: 10,
-        removeRefererHeader: false
-      },
-      (error, response, body) => {
-        if (error) {
-          res.send(500, `ERROR while redirecting ${url}`, error)
-        } else {
-          res.send(body)
-          // fs.writeFileSync(cachePath, body)
-        }
+  // if (fs.existsSync(cachePath)) {
+  //   console.log(`cache found for ${url}`)
+  //   res.send(fs.readFileSync(cachePath))
+  // } else {
+  request(
+    {
+      url,
+      followRedirect: true,
+      followAllRedirects: true,
+      maxRedirects: 10,
+      removeRefererHeader: false
+    },
+    (error, response, body) => {
+      if (error) {
+        res.send(500, `ERROR while redirecting ${url}`, error)
+      } else {
+        res.send(body)
+        // fs.writeFileSync(cachePath, body)
       }
-    )
-  }
+    }
+  )
+  // }
 })
 
 app.listen(port, () =>

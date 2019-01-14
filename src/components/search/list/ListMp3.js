@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { randomColor } from '../../../utils'
 
 class ListMp3 extends Component {
   handleAddToPlaylistRequest = event => {
@@ -24,7 +25,8 @@ class ListMp3 extends Component {
             style={{
               display: 'flex',
               justifyContent: 'space-between',
-              borderBottom: '1px solid #eee'
+              borderBottom: '1px solid #eee',
+              backgroundColor: randomColor()
             }}
           >
             <div>{item.name}</div>
