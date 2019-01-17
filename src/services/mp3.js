@@ -17,7 +17,7 @@ const getAbsoluteUrl = (hrefRaw, url) => {
       ? hrefRaw.split('http://localhost:13370/')[1]
       : hrefRaw
   const absoluteUrl = href.indexOf('http') === 0 ? href : createUrl(href, url)
-  return absoluteUrl.replace(duplicateRegex, '')
+  return absoluteUrl//.replace(duplicateRegex, '')
 }
 
 const getName = (innerText, href) => {
