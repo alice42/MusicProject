@@ -1,24 +1,14 @@
 {
-  "name": "oxmozic",
+  "name": "mini_builder",
   "version": "1.0.0",
   "description": "",
   "main": "src/index.js",
   "scripts": {
     "dev": "webpack-dev-server --mode development --open --hot",
-    "start": "concurrently 'npm run dev' 'cd proxy && npm run dev && cd ..'",
+    "start": "npm run dev",
     "clean": "rm -rf node_modules",
-    "setup": "npm run clean && npm i && cd proxy && npm run clean && npm i && cd .."
+    "setup": "npm run clean && npm i"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ftabarie/oxmozic.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ftabarie/oxmozic/issues"
-  },
-  "homepage": "https://github.com/ftabarie/oxmozic#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
@@ -34,27 +24,43 @@
     "eslint": "^5.9.0",
     "eslint-config-prettier": "^3.3.0",
     "eslint-plugin-prettier": "^3.0.0",
+    "html-loader": "^0.5.5",
     "prettier-eslint": "^8.8.2",
-    "react-redux": "^5.0.6",
     "react-router-dom": "^4.3.1",
-    "redux": "^3.7.2",
-    "redux-devtools-extension": "^2.13.7",
     "style-loader": "^0.23.1",
     "webpack": "^4.25.1",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.10"
   },
   "dependencies": {
+    "@material-ui/core": "^3.9.2",
     "concurrently": "^4.1.0",
     "file-loader": "^2.0.0",
+    "file-system": "^2.2.2",
+    "fs": "0.0.1-security",
+    "grapesjs": "^0.14.55",
+    "grapesjs-blocks-basic": "^0.1.8",
+    "grapesjs-blocks-flexbox": "^0.1.1",
+    "grapesjs-custom-code": "^0.1.1",
+    "grapesjs-lory-slider": "^0.1.5",
+    "grapesjs-navbar": "^0.1.5",
+    "grapesjs-plugin-ckeditor": "0.0.9",
+    "grapesjs-plugin-export": "^1.0.7",
+    "grapesjs-plugin-filestack": "^0.1.1",
+    "grapesjs-plugin-forms": "^1.0.5",
+    "grapesjs-tabs": "^0.1.2",
+    "grapesjs-tui-image-editor": "^0.1.2",
     "html-webpack-plugin": "^3.2.0",
     "jquery": "^3.3.1",
+    "list-react-files": "^0.2.0",
     "lodash": "^4.17.11",
     "react": "^16.6.3",
     "react-aplayer": "^1.0.0",
     "react-dom": "^16.6.3",
+    "readdir": "^0.1.0",
     "redux-saga": "^0.16.2",
     "url-loader": "^1.1.2",
+    "walk": "^2.3.14",
     "webpack-combine-loaders": "^2.0.4"
   }
 }

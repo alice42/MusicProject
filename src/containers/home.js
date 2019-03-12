@@ -1,83 +1,52 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import Playlist from '../components/playlist'
-import Search from '../components/search'
-import Aplayer from '../components/player'
+import grapesjs from 'grapesjs'
+// import gjsCKEditor from 'grapesjs-plugin-ckeditor'
+import gjsTUI from 'grapesjs-tui-image-editor'
+// import gjsFileStack from 'grapesjs-plugin-filestack'
+import gjsExport from 'grapesjs-plugin-export'
+import gjsForm from 'grapesjs-plugin-forms'
+import gjsBlocks from 'grapesjs-blocks-basic'
+import gjsNavBar from 'grapesjs-navbar'
+import gjsSlider from 'grapesjs-lory-slider'
+import gjsTabs from 'grapesjs-tabs'
+import gjsCustomCode from 'grapesjs-custom-code'
+import Page from '../../html/basic.html'
+import Editor from './editor'
 
-const Home = () => {
-  return (
-    <div style={{ width: '100%', display: 'flex' }}>
-      <div
-        style={{
-          width: '50%',
-          height: '-webkit-fill-available',
-          overflow: 'scroll'
-        }}
-      >
-        <SearchConnected />
+export default class Home extends React.Component {
+  state = {
+    value: 'basic.html',
+    editor: null
+  }
+
+  handleChange = event => {
+    this.setState({ value: event.target.value })
+  }
+
+  handleSubmit = event => {
+    alert('Your template: ' + this.state.value)
+
+    this.props.history.push({
+      pathname: '/editor',
+      state: { template: this.state.value }
+    })
+    event.preventDefault()
+  }
+
+  render() {
+    return (
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            Pick your template:
+            <select value={this.state.value} onChange={this.handleChange}>
+              <option value="basic.html">Template A</option>
+              <option value="basic_1.html">Template B</option>
+            </select>
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
       </div>
-      <div style={{ width: '50%' }}>
-        <PlaylistConnected />
-        <AplayerConnected />
-      </div>
-    </div>
-  )
-}
-
-//Playlist
-const playlistMapStateToProps = state => {
-  return {
-    playlist: state.audio.playlist.playlist
+    )
   }
 }
-const playlistMapDispatchToProps = dispatch => {
-  return {
-    toPlayRequest: toPlay => dispatch({ type: 'TO_PLAY_REQUEST', toPlay }),
-    RemoveRequest: toRemove =>
-      dispatch({ type: 'PLAYLIST_REMOVE_SONG_REQUEST', toRemove }),
-    onMount: () => dispatch({ type: 'PLAYLIST_INIT' })
-  }
-}
-
-const PlaylistConnected = connect(
-  playlistMapStateToProps,
-  playlistMapDispatchToProps
-)(Playlist)
-
-//Search
-const searchMapStateToProps = state => {
-  return {
-    loading: state.audio.search.loading,
-    error: state.audio.search.errorMessage,
-    results: state.audio.search.results,
-    toPlay: state.audio.playlist.toPlay,
-    playlist: state.audio.playlist.playlist
-  }
-}
-
-const searchMapDispatchToProps = dispatch => {
-  return {
-    onRequestFetch: inputValue =>
-      dispatch({ type: 'SEARCH_REQUEST', inputValue }),
-    addToPlaylistRequest: addToPlaylist =>
-      dispatch({ type: 'PLAYLIST_ADD_SONG_REQUEST', addToPlaylist }),
-    toPlayRequest: toPlay => dispatch({ type: 'TO_PLAY_REQUEST', toPlay }),
-    onMount: () => dispatch({ type: 'SEARCH_MODULE_INIT' })
-  }
-}
-
-const SearchConnected = connect(
-  searchMapStateToProps,
-  searchMapDispatchToProps
-)(Search)
-
-// Player
-const aPlayerMapStateToProps = state => {
-  return {
-    toPlay: state.audio.playlist.toPlay
-  }
-}
-
-const AplayerConnected = connect(aPlayerMapStateToProps)(Aplayer)
-
-export default Home
