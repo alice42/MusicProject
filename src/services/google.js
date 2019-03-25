@@ -1,6 +1,11 @@
 import jquery from 'jquery'
 
-const scamUrls = ['unknownsecret.info', 'hypem.com', 'sirens.rocks']
+const scamUrls = [
+  'unknownsecret.info',
+  'hypem.com',
+  'sirens.rocks',
+  'persiangig.com'
+]
 
 const excludeUrls = urls => urls.map(url => `-site:${url}`).join(' ')
 
